@@ -6,7 +6,7 @@
 2. Edita `config.json` con los dominios y el límite en **segundos** que quieras permitir al día.
 3. Ejecuta: `python3 main.py`
 4. Configura el proxy en el dispositivo que quieras controlar:
-   apuntando a `http://IP_DE_LA_RASPBERRY:8119` como proxy HTTP **y** HTTPS
+   apuntando a `http://IP_DEL_SERVIDOR:8119` como proxy HTTP **y** HTTPS
    (en la mayoría de sistemas/routers se configura en un único campo "Proxy HTTP",
    y ese mismo proxy se usa también para túneles HTTPS vía `CONNECT`).
 
