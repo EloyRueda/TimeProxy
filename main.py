@@ -30,9 +30,15 @@ def load_config():
         return json.load(f)
 
 def load_usage():
-    """Carga el estado inicial a memoria si aún no está cargado."""
+    """Carga el estado inicial a memoria si aún no está cargado o si cambió de día."""
     global usage_memory
     today = date.today().isoformat()
+
+    # Si ya tenemos datos del día de hoy cargados en memoria, los usamos directamente
+    if usage_memory.get("date") == today:
+        return usage_memory
+
+    # Si existe el archivo en disco, intentamos leerlo
     if os.path.exists(USAGE_PATH):
         try:
             with open(USAGE_PATH, "r", encoding="utf-8") as f:
@@ -40,11 +46,17 @@ def load_usage():
                 if data.get("date") == today:
                     usage_memory = data
                     return usage_memory
-        except (json.JSONDecodeError, OSError):
-            pass
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"[ERROR] No se pudo leer {USAGE_PATH}: {e}")
 
+    # Si es un nuevo día o el archivo no existe/está corrupto, reiniciamos memoria
     usage_memory = {"date": today, "usage": {}}
-    save_usage_to_disk(usage_memory)
+
+    try:
+        save_usage_to_disk(usage_memory)
+    except PermissionError as e:
+        print(f"[ERROR DE PERMISOS] No se pudo guardar usage.json: {e}")
+
     return usage_memory
 
 def save_usage_to_disk(data):
