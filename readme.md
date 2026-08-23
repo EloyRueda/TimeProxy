@@ -2,7 +2,7 @@
 
 ## Cómo usarlo
 
-1. Copia `main.py`, `config.json` y `403.html` a la Raspberry Pi (misma carpeta).
+1. Copia `main.py`, `config.json` y `403.html` al servidor (misma carpeta).
 2. Edita `config.json` con los dominios y el límite en **segundos** que quieras permitir al día.
 3. Ejecuta: `python3 main.py`
 4. Configura el proxy en el dispositivo que quieras controlar:
@@ -35,7 +35,6 @@ lo montemos.
 - El contador de HTTPS se actualiza cada `CHECK_INTERVAL` segundos (5 por
   defecto) mientras la conexión sigue abierta, así que el corte no es
   instantáneo al llegar al límite, sino con ese margen.
-- Para que arranque solo al iniciar la Raspberry Pi, te recomiendo crear un
+- Para que arranque solo al iniciar el servidor, te recomiendo crear un
   servicio `systemd` (`/etc/systemd/system/timeproxy.service`) que ejecute
-  `python3 /usb/timeproxy/main.py`. Dímelo si quieres que te prepare el
-  archivo del servicio.
+  `python3 /etc/timeproxy/main.py`.
